@@ -23,6 +23,6 @@ add(
   multiply(flockA, flockB)
 ); // (2 * 4)+ (4 * 2) = 16
 
-// Apply distributive property to achieve our result
+// (3) Apply distributive property to achieve our result
 multiply(flockB, add(flockA, flockA)); // 2 * (4 + 4) = 16
 
