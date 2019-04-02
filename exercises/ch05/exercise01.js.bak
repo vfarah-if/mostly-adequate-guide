@@ -1,0 +1,69 @@
+
+function compose(...fns) {
+    const n = fns.length;
+
+    return function $compose(...args) {
+        // debugger;
+        $compose.callees = [];
+
+        let $args = args;
+
+        for (let i = n - 1; i >= 0; i -= 1) {
+            const fn = fns[i];
+            $compose.callees.push(fn.name);
+            $args = [fn.call(null, ...$args)];
+        }
+
+        return $args[0];
+    };
+}
+
+// Example 1
+// const g = x => x.length;
+// const f = x => x === 4;
+// const isFourLetterWord = compose(f, g);
+
+// Example 2
+// // const isLastInStock = (cars) => {
+// //     const lastCar = last(cars);
+// //     return prop('in_stock', lastCar);
+// //   };
+
+// function namedAs(value, fn) {
+//     Object.defineProperty(fn, 'name', { value });
+//     return fn;
+// }
+
+// const last = function last(xs) {
+//     return xs[xs.length - 1];
+// };
+
+// function curry(fn) {
+//     const arity = fn.length;
+
+//     return namedAs(fn.name, function $curry(...args) {
+//         $curry.partially = this && this.partially;
+
+//         if (args.length < arity) {
+//             return namedAs(fn.name, $curry.bind({ partially: true }, ...args));
+//         }
+
+//         return fn.call(this || { partially: false }, ...args);
+//     });
+// }
+
+// const prop = curry(function prop(p, obj) {
+//     return obj[p];
+// });
+
+// const isLastInStock = compose(prop('in_stock'), last);
+
+// // example
+// const cars = [{
+//     name: 'Aston Martin One-77',
+//     horsepower: 750,
+//     dollar_value: 1850000,
+//     in_stock: true,
+//   }];
+
+// isLastInStock(cars);
